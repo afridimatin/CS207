@@ -2,7 +2,8 @@
 // A1 will be used for Temperature sensor.
 // A0 will be used for Photoresistor.
 // PIN 2 will be used for speaker.
-// PIN 9 will be used for front fan
+// PIN 9 will be used for front fan.
+// PIN 13 will be used for head LED.
 // PIN 12 will be used for Wheels.
 
 const int fan_pin = 9;
@@ -14,11 +15,11 @@ int spk_pin = 2;
 int white_led_Value = 0; // value of output
 int white_Input = 1020; // value of when light is on
 int photoResistor = A0;
-
+int headLED = 13;
 
 void setup() {
 Serial.begin(9600);
-pinMode(13, OUTPUT);
+pinMode(headLED, OUTPUT);
 pinMode(8, OUTPUT); 
 pinMode(fan_pin, OUTPUT); 
 pinMode(motor_wheels_pin, OUTPUT); 
@@ -26,6 +27,7 @@ pinMode(motor_wheels_pin, OUTPUT);
 }
 
 void loop() {
+digitalWrite(motor_wheels_pin, 100);
 int value = analogRead(photoResistor); 
 Serial.println(value - 20);
 delay(150);
@@ -36,14 +38,14 @@ int temp_value = analogRead(temp_pin);
 temp_value = Serial.println(temp_value);
 delay(50);
 do{
-  digitalWrite(motor_wheels_pin, HIGH);
+  
   digitalWrite(fan_pin, 140);
   delay(50);
-  digitalWrite(13, HIGH);
+  digitalWrite(headLED, HIGH);
   delay(100);
   tone(spk_pin, 1000, 100);
   delay(100);
   tone(spk_pin, 2000, 70);
       }while(temp_value > temp_cov);
-      digitalWrite(13, LOW);
+      digitalWrite(headLED, LOW);
 } 
